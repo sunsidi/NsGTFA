@@ -762,7 +762,7 @@ public class MainFrame {
     {
         LtextSelectDataFirst.setEnabled(true);
         //LtextSelectDataFirst.setForeground(Color.GREEN);
-        LtextSelectDataFirst.setText("Data Selected");
+        LtextSelectDataFirst.setText("1. Data Selected");
         LtextSelectDataFirst.setEnabled(false);
 
         LtxtHitCalculation.setEnabled(true);
@@ -775,21 +775,8 @@ public class MainFrame {
     {
 
         //LtxtHitCalculation.setForeground(Color.GREEN);
-        LtxtHitCalculation.setText("Data Calculated");
+        LtxtHitCalculation.setText("2. Data Calculated");
         LtxtHitCalculation.setEnabled(false);
-
-        LtxtChoseDataSet.setEnabled(true);
-    }
-
-    /**
-     * Current Stage: saving data in buffer
-     */
-    public void setLabel_Step3()
-    {
-
-        //LtxtHitCalculation.setForeground(Color.GREEN);
-        LtxtChoseDataSet.setText("Data Saved");
-        LtxtChoseDataSet.setEnabled(false);
 
         LtxtSelectChart.setEnabled(true);
     }
@@ -797,12 +784,10 @@ public class MainFrame {
     /**
      * Current Stage: display chart
      */
-    public void setLabel_Step4()
+    public void setLabel_Step3()
     {
-
-        //LtxtHitCalculation.setForeground(Color.GREEN);
-        LtxtSelectChart.setText("Chart Displayed");
-        LtxtChoseDataSet.setEnabled(false);
+        LtxtSelectChart.setText("3. Chart Displayed");
+        LtxtSelectChart.setEnabled(false);
     }
 
     public static void main(String[] args)

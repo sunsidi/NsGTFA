@@ -100,6 +100,7 @@ public class ControllerMainFrame {
         view.getBtnClearAll().setEnabled(true);
         // enable metrics checkboxes
         view.setCheckboxEnabled(true);
+        view.setLabel_Step1();
     }
 
     private void loadFolder()
@@ -160,6 +161,7 @@ public class ControllerMainFrame {
         view.getBtnClearAll().setEnabled(false);
         view.getBtnCalculation().setEnabled(false);
         view.setCheckboxEnabled(false);
+        view.setLabel_Step2();
     }
 
     private void selectAllMetrics()
@@ -183,6 +185,7 @@ public class ControllerMainFrame {
 
         view.setupGraphPanel(metrics, 0);
         view.getBtnCalculation().setEnabled(false);
+        view.setLabel_Step3();
     }
 
     private void selectGraphType()
