@@ -7,10 +7,9 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.function.Consumer;
 
 public class MainFrame {
     private JFrame mainFrame = new JFrame();
@@ -37,7 +36,7 @@ public class MainFrame {
             chckbxDroppedBytes;
     private ArrayList<JCheckBox> metrics = new ArrayList<>();
 
-//    private String[] list = {"Bar Chart", "Pie Chart", "Line Chart"};
+    //    private String[] list = {"Bar Chart", "Pie Chart", "Line Chart"};
     private String[] list = {"Bar Chart", "Pie Chart"};
     private JComboBox combBoxGraphType = new JComboBox<>(list);
 
@@ -59,7 +58,7 @@ public class MainFrame {
     private JTextArea textArea;
 
     private JMenuBar menuBar;
-    private JMenuItem mntmReadFromFile, mntmReadFromDirectory, mntmClose, mntmCloseAll, mntmExit, mntmAbout, mntmReadMemanual;
+    private JMenuItem mntmExit, mntmAbout, mntmReadMemanual;
 
     private JProgressBar progressBar;
 
@@ -358,44 +357,17 @@ public class MainFrame {
         JMenu mnFile = new JMenu("File");
         menuBar.add(mnFile);
 
-        mntmReadFromFile = new JMenuItem("Read a File");
-        mnFile.add(mntmReadFromFile);
-
-        mntmReadFromDirectory = new JMenuItem("Read a Directory");
-        mnFile.add(mntmReadFromDirectory);
-
-//        JSeparator separator = new JSeparator();
-//        mnFile.add(separator);
-        mnFile.addSeparator();
-
-        mntmClose = new JMenuItem("Close");
-        mnFile.add(mntmClose);
-
-        mntmCloseAll = new JMenuItem("Close All");
-        mnFile.add(mntmCloseAll);
-
         mntmExit = new JMenuItem("Exit");
 
-//        JSeparator separator_2 = new JSeparator();
-//        mnFile.add(separator_2);
-        mnFile.addSeparator();
         mnFile.add(mntmExit);
-
-//        JSeparator separator_1 = new JSeparator();
-//        mnFile.add(separator_1);
-        mnFile.addSeparator();
-
-
-        JMenu mnView = new JMenu("View");
-        menuBar.add(mnView);
 
         JMenu mnHelp = new JMenu("Help");
         menuBar.add(mnHelp);
 
-        mntmAbout = new JMenuItem("About");
+        mntmAbout = new JMenuItem("About NsGTFA");
         mnHelp.add(mntmAbout);
 
-        mntmReadMemanual = new JMenuItem("Read me (manual)");
+        mntmReadMemanual = new JMenuItem("User Manual");
         mnHelp.add(mntmReadMemanual);
 
         return menuBar;
@@ -513,7 +485,7 @@ public class MainFrame {
                     tmp.setEnabled(false);
                     panel.add(tmp);
                     label = String.format("%,.2f", result.getFloatMetricValue(chkBoxText));
-                    panel.add(new JLabel(label+"%"));
+                    panel.add(new JLabel(label + "%"));
                     break;
                 case "Throughput":
                     tmp = new JCheckBox(chkBoxText, true);
@@ -527,7 +499,7 @@ public class MainFrame {
                     tmp.setEnabled(false);
                     panel.add(tmp);
                     label = String.format("%,.2f", result.getFloatMetricValue(chkBoxText));
-                    panel.add(new JLabel(label+"%"));
+                    panel.add(new JLabel(label + "%"));
                     break;
             }
         });
@@ -592,26 +564,6 @@ public class MainFrame {
         }
         panel_graph.revalidate();
         panel_graph.repaint();
-    }
-
-    public JMenuItem getMntmReadFromFile()
-    {
-        return mntmReadFromFile;
-    }
-
-    public JMenuItem getMntmReadFromDirectory()
-    {
-        return mntmReadFromDirectory;
-    }
-
-    public JMenuItem getMntmClose()
-    {
-        return mntmClose;
-    }
-
-    public JMenuItem getMntmCloseAll()
-    {
-        return mntmCloseAll;
     }
 
     public JMenuItem getMntmExit()
@@ -801,6 +753,40 @@ public class MainFrame {
     {
         LtxtSelectChart.setText("4. Chart Displayed");
         LtxtSelectChart.setEnabled(false);
+    }
+
+    public void about()
+    {
+        ImageIcon icon = new ImageIcon("image/icon.png", "Logo");
+        JOptionPane.showMessageDialog(null,
+                "Version 3.0, August 2018",
+                "About NsGTFA",
+                JOptionPane.INFORMATION_MESSAGE,
+                icon);
+    }
+
+    public void userManual()
+    {
+        JFrame manual = new JFrame();
+        manual.setBounds(100, 100, 500, 500);
+        manual.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        manual.getContentPane().setLayout(new BorderLayout());
+        manual.setTitle("User Manual");
+
+        JEditorPane editorPane = new JEditorPane();
+        editorPane.setEditable(false);
+        java.net.URL helpURL = getClass().getResource("readme.html");
+
+        try {
+            editorPane.setPage(helpURL);
+        } catch (IOException e) {
+            System.err.println("Attempted to read a bad URL: " + helpURL);
+        }
+
+        JScrollPane scrollBar = new JScrollPane(editorPane);
+
+        manual.add(scrollBar, BorderLayout.CENTER);
+        manual.setVisible(true);
     }
 
     /**

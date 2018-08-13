@@ -221,7 +221,10 @@ public class FileAnalyser extends SwingWorker<ModelAnalysisResult, Integer> {
             packetSize = Integer.parseInt(token[36]);
         } else { // error
             view.getRadioFR().setSelected(true);
-            JOptionPane.showMessageDialog(null, fileName + "\nFormat Error: NsGTFA only supports Old and New trace file format.");
+            JOptionPane.showMessageDialog(null,
+                    "File: "+fileName + "\nFormat Error: NsGTFA only supports Old and New trace file format.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
             this.cancel(true);
         }
     }
@@ -247,7 +250,7 @@ public class FileAnalyser extends SwingWorker<ModelAnalysisResult, Integer> {
             File file = new File(inputFileName);
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
-            outputPath = file.getParent()+"/Result_"+file.getName().replaceFirst("[.][^.]+$", "")+".txt";
+            outputPath = file.getParent() + "/Result_" + file.getName().replaceFirst("[.][^.]+$", "") + ".txt";
 
             // save the file name
             result.setMetricValue("File Name", file.getName().replaceFirst("[.][^.]+$", "")); // get rid of extension
@@ -387,13 +390,13 @@ public class FileAnalyser extends SwingWorker<ModelAnalysisResult, Integer> {
     protected void done()
     {
         try {
-            Helper.exportResults(get(), outputPath);
             view.updateResultPanel(get(), metrics);
+            Helper.exportResults(get(), outputPath);
         } catch (ExecutionException | InterruptedException | CancellationException | NullPointerException e) {
             e.printStackTrace();
         } catch (IOException e) {
             view.getRadioFW().setSelected(true);
-            JOptionPane.showMessageDialog(null, "Export Error: Cannot export analysis result.");
+            JOptionPane.showMessageDialog(null, "Export Error: Cannot export analysis result.","Error",JOptionPane.ERROR_MESSAGE);
         }
     }
 

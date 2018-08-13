@@ -1,14 +1,11 @@
 package JavaNs2.Views;
 
-import javax.swing.*;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
-import java.awt.*;
 import java.util.HashMap;
 
 public class PieChart_AWT {

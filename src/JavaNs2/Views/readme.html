@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>NsGTFA User Mnaual</title>
+</head>
+
+<body>
+<h2>NsGTFA User Mnaual</h2>
+<p><b>NsGTFA (NS2 Trace File Analyzer)</b> is designed for analyzing <b>old</b> and <b>new</b> trace files. </p>
+<p>User can use NsGTFA multiple trace files at the same time and compare the results. </p>
+<p>NsGTFA also supports basic graph generation: Bar chart and Pie chart.</p>
+<br>
+<h3>Step 1.</h3>
+<p style="text-indent: 2em;">
+    Click <b><i>New</i></b> button to start a new analysis.
+</p>
+<br>
+<h3>Step 2.</h3>
+<p>Click <b><i>Load a File</i></b> to select trace file. This can be done multiple times if user is planning to analyze
+    more than one trace file.</p>
+<p><strike>Click <b><i>Load a Folder</i></b> to select a folder. NsGTFA will try to analyze all the trace files in the
+    selected folder. (Not supported in this version)</strike></p>
+<br>
+<h3>Step 3.</h3>
+<p>Use the <b><i>Metrics Options</i></b> and <b><i>Performance Metrics</i></b> panel to select desired metrics.</p>
+<p>User can click <b><i>Select All</i></b> to select all the metrics, or click <b><i>Most Used</i></b> to select the
+    most used metrics.</p>
+<p>To clear all the selections, click <b><i>Clear</i></b> button.</p>
+<br>
+<h3>Step 4.</h3>
+<p>Click <b><i>Calculation</i></b> to analyze the selected trace files.</p>
+<p>The progress bar will show the progress percentage of each trace file's analysis.</p>
+<p>The analysis result of each trace file will displays in the <b><i>Analysis Result</i></b> panel. User can use left,
+    right arrow to check each result.</p>
+<p>If one of the selected trace file doesn't have the correct format <b>(old, or new)</b>, a pop-up window will show up
+    and the <b><i>Error</i></b> panel will indicate that there is a <b><i>File Read</i></b> error.</p>
+<p>Any trace file that doesn't have a correct format will be skipped, and the rest of the selected trace files will
+    continue their progress until finish.</p>
+<p>Each trace file that has been successfully analyzed will generate a corresponding result file, which is named as
+    <b><i>"Result_orignalFileName.txt"</i></b>.</p>
+<p>User is supposed to have all their trace files saved in the same folder. This will help export the result file in an
+    easy and organized way, since all the result files will be located in the same folder of the first selected trace
+    file.</p>
+<p>If NsGTFA is not able to export the result file, a pop-up window will show up and the <b><i>Error</i></b> panel will
+    indicate that there is a <b><i>File Write</i></b> error.</p>
+<br>
+<h3>Step 5.</h3>
+<p>
+    To view the graphs, user can click <b><i>Chart/Graph</i></b> button to show the Graph Window. At the top-left of the
+    Graph Window, user can select the graph type, either a Bar chart or Pie chart.
+</p>
+<br>
+<p>To start a new analysis, click the <b><i>Reset</i></b> button and repeat Step 1-5.</p>
+<br>
+</body>
+
+</html>

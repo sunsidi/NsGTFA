@@ -48,7 +48,7 @@ public class ControllerMainFrame {
         view.getBtnLoadFile().addActionListener(e -> loadFile());
 //        view.getBtnLoadFolder().addActionListener();
         for (JCheckBox tmpBox : view.getMetrics()) {
-            tmpBox.addActionListener(e-> {
+            tmpBox.addActionListener(e -> {
                 view.setLabel_Step2();
                 // enable calculation button
                 view.getBtnCalculation().setEnabled(true);
@@ -66,14 +66,10 @@ public class ControllerMainFrame {
         view.getBtnMostUsed().addActionListener(e -> selectMostUsedMetrics());
         view.getBtnClearAll().addActionListener(e -> clearAll());
         view.getCombBoxGraphType().addActionListener(e -> selectGraphType());
-//        // menu
-//        view.getMntmReadFromFile().addActionListener();
-//        view.getMntmReadFromDirectory().addActionListener();
-//        view.getMntmClose().addActionListener();
-//        view.getMntmCloseAll().addActionListener();
-//        view.getMntmAbout().addActionListener();
-//        view.getMntmExit().addActionListener(e->System.exit(0));
-//        view.getMntmReadMemanual().addActionListener();
+        // menu
+        view.getMntmExit().addActionListener(e -> System.exit(0));
+        view.getMntmAbout().addActionListener(e -> view.about());
+        view.getMntmReadMemanual().addActionListener(e -> view.userManual());
     }
 
     private void reset()
@@ -87,7 +83,8 @@ public class ControllerMainFrame {
     private void newAnalyse()
     {
         view.getBtnLoadFile().setEnabled(true);
-        view.getBtnLoadFolder().setEnabled(true);
+        // not supported in this version
+//        view.getBtnLoadFolder().setEnabled(true);
         view.getBtnNew().setEnabled(false);
         view.getBtnNew().setVisible(false);
         view.getBtnReset().setVisible(true);
@@ -100,7 +97,7 @@ public class ControllerMainFrame {
 //        btnLoadFolder.setEnabled(false);
 //        btnNew.setEnabled(true);
         file = fileLoader.loadFile();
-        if(file != null)
+        if (file != null)
             filePaths.add(file.getAbsolutePath());
         // enable metrics button
         view.getBtnSelectAll().setEnabled(true);
