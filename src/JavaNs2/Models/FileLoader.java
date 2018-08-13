@@ -11,7 +11,8 @@ public class FileLoader {
 
     public File loadFile() {
         //TODO: change the fixed file path, maybe remember the most recent file path
-        JFileChooser fileChooser = new JFileChooser("/Users/SD/Desktop/School's Lectures/Final Project/Examples/a2_AODV_new.tr"); // use for testing
+//        JFileChooser fileChooser = new JFileChooser("/Users/SD/Desktop/School's Lectures/Final Project/Examples/a2_AODV_new.tr"); // use for testing
+        JFileChooser fileChooser = new JFileChooser();
 //        JFileChooser fileChooser = new JFileChooser();
         fileChooser.setAcceptAllFileFilterUsed(false);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Ns2 Trace Files Only", "tr");

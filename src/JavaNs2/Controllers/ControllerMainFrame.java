@@ -100,7 +100,8 @@ public class ControllerMainFrame {
 //        btnLoadFolder.setEnabled(false);
 //        btnNew.setEnabled(true);
         file = fileLoader.loadFile();
-        filePaths.add(file.getAbsolutePath());
+        if(file != null)
+            filePaths.add(file.getAbsolutePath());
         // enable metrics button
         view.getBtnSelectAll().setEnabled(true);
         view.getBtnMostUsed().setEnabled(true);
