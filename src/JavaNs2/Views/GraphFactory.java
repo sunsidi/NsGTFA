@@ -30,13 +30,17 @@ public class GraphFactory {
         }
     }
 
+    /**
+     * Add result to a Hashmap
+     * result with the same file name only appear once
+     */
     private void processResults()
     {
         for (ModelAnalysisResult result : results) {
             for (int i = 0; i < metrics.length; i++) {
-                if (i > 3) {
+                if (i > 3) { // get the integer metrics
                     data.get(i).put(result.getStringMetricValue("File Name"), (float) result.getIntMetricValue(metrics[i]));
-                } else {
+                } else { // get the float metrics
                     data.get(i).put(result.getStringMetricValue("File Name"), result.getFloatMetricValue(metrics[i]));
                 }
             }
@@ -46,8 +50,8 @@ public class GraphFactory {
     /**
      * Get the abbreviation of the metrics
      * Example: "End to End Delay" should return "EtoED"
-     * @param fullName
-     * @return
+     * @param metric name
+     * @return abbreviation of the metric name
      */
     private String getAbbreviation(String fullName)
     {
@@ -67,6 +71,10 @@ public class GraphFactory {
         }
     }
 
+    /**
+     * Generate a list of graph objects: barChart or pieChart
+     * @return a list of selected type of graphs
+     */
     public ArrayList<ChartPanel> generateGraphs()
     {
         int i = 0;
