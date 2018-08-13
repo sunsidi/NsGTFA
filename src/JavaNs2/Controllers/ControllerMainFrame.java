@@ -2,21 +2,16 @@ package JavaNs2.Controllers;
 
 import JavaNs2.Models.FileAnalyser;
 import JavaNs2.Models.FileLoader;
-import JavaNs2.Models.Helper;
-import JavaNs2.Models.ModelAnalysisResult;
 import JavaNs2.Views.MainFrame;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class ControllerMainFrame {
     private MainFrame view;
     private FileLoader fileLoader;
-    private boolean newFile;
     private File file;
     private ArrayList<String> filePaths = new ArrayList<>();
 
@@ -49,8 +44,16 @@ public class ControllerMainFrame {
     {
         // buttons
         view.getBtnNew().addActionListener(e -> newAnalyse());
+        view.getBtnReset().addActionListener(e -> reset());
         view.getBtnLoadFile().addActionListener(e -> loadFile());
 //        view.getBtnLoadFolder().addActionListener();
+        for (JCheckBox tmpBox : view.getMetrics()) {
+            tmpBox.addActionListener(e-> {
+                view.setLabel_Step2();
+                // enable calculation button
+                view.getBtnCalculation().setEnabled(true);
+            });
+        }
         view.getBtnCalculation().addActionListener(e -> {
             try {
                 analyseFile(filePaths);
@@ -73,13 +76,21 @@ public class ControllerMainFrame {
 //        view.getMntmReadMemanual().addActionListener();
     }
 
+    private void reset()
+    {
+        // reset GUI
+        view.resetGUI();
+        // clear all saved file path
+        filePaths.clear();
+    }
+
     private void newAnalyse()
     {
-        String SequeValue = Helper.getCurrentTime();
-        this.newFile = true;  // start a new analyse
         view.getBtnLoadFile().setEnabled(true);
         view.getBtnLoadFolder().setEnabled(true);
         view.getBtnNew().setEnabled(false);
+        view.getBtnNew().setVisible(false);
+        view.getBtnReset().setVisible(true);
     }
 
     private void loadFile()
@@ -90,8 +101,6 @@ public class ControllerMainFrame {
 //        btnNew.setEnabled(true);
         file = fileLoader.loadFile();
         filePaths.add(file.getAbsolutePath());
-        // enable calculation button
-        view.getBtnCalculation().setEnabled(true);
         // enable metrics button
         view.getBtnSelectAll().setEnabled(true);
         view.getBtnMostUsed().setEnabled(true);
@@ -159,22 +168,30 @@ public class ControllerMainFrame {
         view.getBtnClearAll().setEnabled(false);
         view.getBtnCalculation().setEnabled(false);
         view.setCheckboxEnabled(false);
-        view.setLabel_Step2();
+        view.setLabel_Step3();
     }
 
     private void selectAllMetrics()
     {
         view.setCheckboxSelected(true);
+        // enable calculation button
+        view.getBtnCalculation().setEnabled(true);
+        view.setLabel_Step2();
     }
 
     private void selectMostUsedMetrics()
     {
         view.selectMostUsedMetrics();
+        // enable calculation button
+        view.getBtnCalculation().setEnabled(true);
+        view.setLabel_Step2();
     }
 
     private void clearAll()
     {
         view.setCheckboxSelected(false);
+        // disable calculation button
+        view.getBtnCalculation().setEnabled(false);
     }
 
     private void generateGraph()
@@ -183,7 +200,7 @@ public class ControllerMainFrame {
 
         view.setupGraphPanel(metrics, 0);
         view.getBtnCalculation().setEnabled(false);
-        view.setLabel_Step3();
+        view.setLabel_Step4();
     }
 
     private void selectGraphType()

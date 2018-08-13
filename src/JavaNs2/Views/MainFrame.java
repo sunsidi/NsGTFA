@@ -17,10 +17,10 @@ public class MainFrame {
     private JFrame graphFrame = new JFrame();
 
     private JPanel panel_1_ChoseTraceFile;
-    private JButton btnNew, btnLoadFile, btnLoadFolder;
+    private JButton btnNew, btnReset, btnLoadFile, btnLoadFolder;
 
     private JPanel panel_2_Performance;
-    private JButton btnCalculation, btnDataSet, btnChartGraph;
+    private JButton btnCalculation, btnChartGraph;
 
     private JPanel panel_3_MetricsOptions;
     private JButton btnSelectAll, btnMostUsed, btnClearAll;
@@ -42,14 +42,15 @@ public class MainFrame {
     private JComboBox combBoxGraphType = new JComboBox<>(list);
 
     private JPanel panel_5_StepsMonitor;
-    private JLabel LtextSelectDataFirst, LtxtHitCalculation, LtxtSelectChart;
+    private JLabel LtextSelectDataFirst, LtxtHitCalculation, LtxtSelectMetrics, LtxtSelectChart;
 
     private JPanel panel_6_Errors;
     private JRadioButton radioFR, radioFW;
 
     private JPanel panel_7_version;
 
-    private JPanel panel_graph, panel_graphType;
+    private JPanel panel_graph = new JPanel(new GridLayout(2, 3)),
+            panel_graphType = new JPanel(new GridLayout(1, 4));
 
     private JPanel panel_result;
     private JTabbedPane tabbedPane = new JTabbedPane();
@@ -139,6 +140,11 @@ public class MainFrame {
         // new button
         btnNew = new JButton("New");
         panel_1_ChoseTraceFile.add(btnNew);
+
+        // reset button
+        btnReset = new JButton("Reset");
+        btnReset.setVisible(false);
+        panel_1_ChoseTraceFile.add(btnReset);
 
         // load file button
         btnLoadFile = new JButton("Load a File ");
@@ -269,7 +275,7 @@ public class MainFrame {
     private JPanel setupStepsMonitorPanel()
     {
         // set up steps monitor panel
-        panel_5_StepsMonitor = new JPanel(new GridLayout(3, 1));
+        panel_5_StepsMonitor = new JPanel(new GridLayout(4, 1));
         panel_5_StepsMonitor.setBorder(new TitledBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(128, 128, 128)), "Steps/Monitor", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 255)));
         panel_5_StepsMonitor.setBounds(10, 466, 250, 100);
 
@@ -280,29 +286,29 @@ public class MainFrame {
 
         panel_5_StepsMonitor.add(LtextSelectDataFirst);
 
+        LtxtSelectMetrics = new JLabel();
+        LtxtSelectMetrics.setForeground(Color.BLUE);
+        LtxtSelectMetrics.setEnabled(false);
+
+        LtxtSelectMetrics.setText("2. Select Metrics");
+        LtxtSelectMetrics.setHorizontalAlignment(SwingConstants.LEFT);
+
+        panel_5_StepsMonitor.add(LtxtSelectMetrics);
+
         LtxtHitCalculation = new JLabel();
         LtxtHitCalculation.setForeground(Color.BLUE);
         LtxtHitCalculation.setEnabled(false);
 
-        LtxtHitCalculation.setText("2. Hit Calculation");
+        LtxtHitCalculation.setText("3. Hit Calculation");
         LtxtHitCalculation.setHorizontalAlignment(SwingConstants.LEFT);
 
         panel_5_StepsMonitor.add(LtxtHitCalculation);
-
-//        LtxtChoseDataSet = new JLabel();
-//        LtxtChoseDataSet.setForeground(Color.BLUE);
-//        LtxtChoseDataSet.setEnabled(false);
-//
-//        LtxtChoseDataSet.setText("3. Chose Data Set");
-//        LtxtChoseDataSet.setHorizontalAlignment(SwingConstants.LEFT);
-//
-//        panel_5_StepsMonitor.add(LtxtChoseDataSet);
 
         LtxtSelectChart = new JLabel();
         LtxtSelectChart.setForeground(Color.BLUE);
         LtxtSelectChart.setEnabled(false);
 
-        LtxtSelectChart.setText("3. Select Chart/Graph");
+        LtxtSelectChart.setText("4. Select Chart/Graph");
         LtxtSelectChart.setHorizontalAlignment(SwingConstants.LEFT);
 
         panel_5_StepsMonitor.add(LtxtSelectChart);
@@ -319,9 +325,11 @@ public class MainFrame {
         panel_6_Errors.setBounds(280, 466, 250, 100);
 
         radioFR = new JRadioButton("File Read");
+//        radioFR.setEnabled(false);
         panel_6_Errors.add(radioFR);
 
         radioFW = new JRadioButton("File Write");
+//        radioFW.setEnabled(false);
         panel_6_Errors.add(radioFW);
 
         return panel_6_Errors;
@@ -556,9 +564,6 @@ public class MainFrame {
 
     public void setupGraphPanel(String[] metrics, int graphType)
     {
-        panel_graph = new JPanel(new GridLayout(2, 3));
-        panel_graphType = new JPanel(new GridLayout(1, 4));
-
         panel_graphType.setBounds(10, 3, 120, 25);
         panel_graphType.add(combBoxGraphType);
         panel_graph.setBorder(new TitledBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(128, 128, 128)), "Performance Charts", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -674,11 +679,6 @@ public class MainFrame {
         return combBoxGraphType;
     }
 
-    public JTextArea getTextArea()
-    {
-        return textArea;
-    }
-
     public JProgressBar getProgressBar()
     {
         return progressBar;
@@ -697,6 +697,11 @@ public class MainFrame {
     public JRadioButton getRadioFW()
     {
         return radioFW;
+    }
+
+    public JButton getBtnReset()
+    {
+        return btnReset;
     }
 
     public void setMainFrameSize(int width, int height)
@@ -763,7 +768,7 @@ public class MainFrame {
         LtextSelectDataFirst.setText("1. Data Selected");
         LtextSelectDataFirst.setEnabled(false);
 
-        LtxtHitCalculation.setEnabled(true);
+        LtxtSelectMetrics.setEnabled(true);
     }
 
     /**
@@ -771,9 +776,19 @@ public class MainFrame {
      */
     public void setLabel_Step2()
     {
+        LtxtSelectMetrics.setText("2. Metrics Selected");
+        LtxtSelectMetrics.setEnabled(false);
 
+        LtxtHitCalculation.setEnabled(true);
+    }
+
+    /**
+     * Current stage: select performance metrics
+     */
+    public void setLabel_Step3()
+    {
         //LtxtHitCalculation.setForeground(Color.GREEN);
-        LtxtHitCalculation.setText("2. Data Calculated");
+        LtxtHitCalculation.setText("3. Data Calculated");
         LtxtHitCalculation.setEnabled(false);
 
         LtxtSelectChart.setEnabled(true);
@@ -782,10 +797,66 @@ public class MainFrame {
     /**
      * Current Stage: display chart
      */
-    public void setLabel_Step3()
+    public void setLabel_Step4()
     {
-        LtxtSelectChart.setText("3. Chart Displayed");
+        LtxtSelectChart.setText("4. Chart Displayed");
         LtxtSelectChart.setEnabled(false);
+    }
+
+    /**
+     * Reset the GUI when reset button is hit
+     */
+    public void resetGUI()
+    {
+        //setup file selection panel
+        btnReset.setVisible(false);
+        btnNew.setVisible(true);
+        btnNew.setEnabled(true);
+        btnLoadFile.setEnabled(false);
+        btnLoadFolder.setEnabled(false);
+
+        //setup performance panel
+        btnCalculation.setEnabled(false);
+        btnChartGraph.setEnabled(false);
+
+        //setup metrics option panel
+        btnSelectAll.setEnabled(false);
+        btnMostUsed.setEnabled(false);
+        btnClearAll.setEnabled(false);
+
+        //setup performance metrics
+        setCheckboxEnabled(false);
+        setCheckboxSelected(false);
+
+        //setup step monitor panel
+        LtextSelectDataFirst.setEnabled(true);
+        LtextSelectDataFirst.setText("1. Select Data First");
+
+        LtxtSelectMetrics.setEnabled(false);
+        LtxtSelectMetrics.setText("2. Select Metrics");
+
+        LtxtHitCalculation.setEnabled(false);
+        LtxtHitCalculation.setText("3. Hit Calculation");
+
+        LtxtSelectChart.setEnabled(false);
+        LtxtSelectChart.setText("4. Select Chart/Graph");
+
+        //setup error panel
+        radioFR.setSelected(false);
+        radioFW.setSelected(false);
+
+        //setup progress bar
+        progressBar.setValue(0);
+
+        //setup result panel
+        tabbedPane.removeAll();
+
+        //setup graph window
+        panel_graph.removeAll();
+        panel_graphType.removeAll();
+
+        //remove all the saved results
+        results.clear();
     }
 
     public static void main(String[] args)
