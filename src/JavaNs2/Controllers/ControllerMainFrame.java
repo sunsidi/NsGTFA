@@ -11,16 +11,14 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ControllerMainFrame {
     private MainFrame view;
-    private FileAnalyser fileAnalyser;
     private FileLoader fileLoader;
     private boolean newFile;
-    private String outputPath;
     private File file;
     private ArrayList<String> filePaths = new ArrayList<>();
-    private ArrayList<ModelAnalysisResult> results = new ArrayList<>();
 
     public ControllerMainFrame(MainFrame view, FileLoader fileLoader)
     {
@@ -140,17 +138,17 @@ public class ControllerMainFrame {
 
     private void analyseFile(ArrayList<String> filePaths) throws IOException
     {
+        ArrayList<JCheckBox> metrics = view.getMetrics();
+        ArrayList<JCheckBox> tmp = new ArrayList<>();
 
-//        for (String filePath : filePaths) {
-//            System.out.println(filePath);
-//            results.add(fileAnalyser.calculate(filePath, view));
-//        }
-
-//        JTextArea textArea = view.getTextArea();
-//        JProgressBar progressBar = view.getProgressBar();
+        metrics.forEach((JCheckBox tmpBox) -> {
+            if (tmpBox.isSelected()) {
+                tmp.add(tmpBox);
+            }
+        });
 
         for (String filePath : filePaths) {
-            new FileAnalyser(view, filePath).execute();
+            new FileAnalyser(view, filePath, tmp).execute();
         }
 
         view.getBtnLoadFile().setEnabled(false);

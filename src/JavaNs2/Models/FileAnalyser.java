@@ -25,6 +25,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringTokenizer;
@@ -40,6 +41,7 @@ public class FileAnalyser extends SwingWorker<ModelAnalysisResult, Integer> {
     private float time, startTime, stopTime;
     private int highest_packet_id;
     private ModelAnalysisResult result;
+    private ArrayList<JCheckBox> metrics;
 
     private JProgressBar progressBar;
     private String inputFileName;
@@ -53,11 +55,12 @@ public class FileAnalyser extends SwingWorker<ModelAnalysisResult, Integer> {
     private int packetId;
     private int fileFormat;
 
-    public FileAnalyser(MainFrame view, String inputFileName)
+    public FileAnalyser(MainFrame view, String inputFileName, ArrayList<JCheckBox> metrics)
     {
         this.view = view;
         this.progressBar = view.getProgressBar();
         this.inputFileName = inputFileName;
+        this.metrics = metrics;
     }
 
     /**
@@ -385,7 +388,7 @@ public class FileAnalyser extends SwingWorker<ModelAnalysisResult, Integer> {
     {
         try {
             Helper.exportResults(get(), outputPath);
-            view.updateResultPanel(get());
+            view.updateResultPanel(get(), metrics);
         } catch (ExecutionException | InterruptedException | CancellationException | NullPointerException e) {
             e.printStackTrace();
         } catch (IOException e) {

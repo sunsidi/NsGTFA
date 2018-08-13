@@ -10,6 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.function.Consumer;
 
 public class MainFrame {
     private JFrame mainFrame = new JFrame();
@@ -26,24 +27,22 @@ public class MainFrame {
 
     private JPanel panel_4_PerformanceMetrics;
     private JCheckBox chckbxPacketDeliveryRatio,
-            chckbxNormalized_1,
-            chckbxThrouighput,
+            chckbxNormalized,
+            chckbxThroughput,
             chckbxOverHead,
             chckbxEndToEnd,
-            chckbxTotalSentPacket,
-            chckbxTotalReceivedPacket,
-            chckbxTotalDroppedPackets,
-            chckbxTotalDroppedBytes,
-            chckbxLostPacket,
-            chckbxSimulationTime,
-            chckbxFileInformation;
+            chckbxSentPacket,
+            chckbxReceivedPacket,
+            chckbxDroppedPackets,
+            chckbxDroppedBytes;
+    private ArrayList<JCheckBox> metrics = new ArrayList<>();
 
 //    private String[] list = {"Bar Chart", "Pie Chart", "Line Chart"};
     private String[] list = {"Bar Chart", "Pie Chart"};
     private JComboBox combBoxGraphType = new JComboBox<>(list);
 
     private JPanel panel_5_StepsMonitor;
-    private JLabel LtextSelectDataFirst, LtxtHitCalculation, LtxtChoseDataSet, LtxtSelectChart;
+    private JLabel LtextSelectDataFirst, LtxtHitCalculation, LtxtSelectChart;
 
     private JPanel panel_6_Errors;
     private JRadioButton radioFR, radioFW;
@@ -209,64 +208,60 @@ public class MainFrame {
     private JPanel setupPerformanceMetricsPanel()
     {
         // set up performance metrics panel
-        panel_4_PerformanceMetrics = new JPanel(new GridLayout(3, 4));
+        panel_4_PerformanceMetrics = new JPanel(new GridLayout(3, 3));
 //        FlowLayout fl_panel_4_PerformanceMetrics = (FlowLayout) panel_4_PerformanceMetrics.getLayout();
 //        fl_panel_4_PerformanceMetrics.setAlignment(FlowLayout.LEFT);
         panel_4_PerformanceMetrics.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, new Color(64, 64, 64), new Color(0, 0, 0), new Color(128, 128, 128), new Color(128, 128, 128)), "Performance Metrics", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(128, 0, 0)));
         panel_4_PerformanceMetrics.setBounds(10, 380, 760, 80);
 
+        chckbxSentPacket = new JCheckBox("Sent Packets");
+        chckbxSentPacket.setHorizontalAlignment(SwingConstants.LEFT);
+        panel_4_PerformanceMetrics.add(chckbxSentPacket);
+        metrics.add(chckbxSentPacket);
 
-        chckbxPacketDeliveryRatio = new JCheckBox("Packet Delivery Ratio");
-        chckbxPacketDeliveryRatio.setSelected(true);
-        chckbxPacketDeliveryRatio.setHorizontalAlignment(SwingConstants.LEFT);
-        panel_4_PerformanceMetrics.add(chckbxPacketDeliveryRatio);
+        chckbxReceivedPacket = new JCheckBox("Received Packets");
+        chckbxReceivedPacket.setHorizontalAlignment(SwingConstants.LEFT);
+        panel_4_PerformanceMetrics.add(chckbxReceivedPacket);
+        metrics.add(chckbxReceivedPacket);
 
-        chckbxNormalized_1 = new JCheckBox("Normalized");
-        chckbxNormalized_1.setHorizontalAlignment(SwingConstants.LEFT);
-        panel_4_PerformanceMetrics.add(chckbxNormalized_1);
+        chckbxDroppedPackets = new JCheckBox("Dropped Packets");
+        chckbxDroppedPackets.setHorizontalAlignment(SwingConstants.LEFT);
+        panel_4_PerformanceMetrics.add(chckbxDroppedPackets);
+        metrics.add(chckbxDroppedPackets);
 
-        chckbxThrouighput = new JCheckBox("Throughput");
-        chckbxThrouighput.setSelected(true);
-        chckbxThrouighput.setHorizontalAlignment(SwingConstants.LEFT);
-        panel_4_PerformanceMetrics.add(chckbxThrouighput);
-
-        chckbxOverHead = new JCheckBox("Over Head");
+        chckbxOverHead = new JCheckBox("Overhead");
         chckbxOverHead.setSelected(true);
         chckbxOverHead.setHorizontalAlignment(SwingConstants.LEFT);
         panel_4_PerformanceMetrics.add(chckbxOverHead);
+        metrics.add(chckbxOverHead);
+
+        chckbxDroppedBytes = new JCheckBox("Dropped Bytes");
+        chckbxDroppedBytes.setHorizontalAlignment(SwingConstants.LEFT);
+        panel_4_PerformanceMetrics.add(chckbxDroppedBytes);
+        metrics.add(chckbxDroppedBytes);
 
         chckbxEndToEnd = new JCheckBox("End to End Delay");
         chckbxEndToEnd.setSelected(true);
         chckbxEndToEnd.setHorizontalAlignment(SwingConstants.LEFT);
         panel_4_PerformanceMetrics.add(chckbxEndToEnd);
+        metrics.add(chckbxEndToEnd);
 
-        chckbxTotalSentPacket = new JCheckBox("Total Sent Packets");
-        chckbxTotalSentPacket.setHorizontalAlignment(SwingConstants.LEFT);
-        panel_4_PerformanceMetrics.add(chckbxTotalSentPacket);
+        chckbxPacketDeliveryRatio = new JCheckBox("Packet Delivery Ratio");
+        chckbxPacketDeliveryRatio.setSelected(true);
+        chckbxPacketDeliveryRatio.setHorizontalAlignment(SwingConstants.LEFT);
+        panel_4_PerformanceMetrics.add(chckbxPacketDeliveryRatio);
+        metrics.add(chckbxPacketDeliveryRatio);
 
-        chckbxTotalReceivedPacket = new JCheckBox("Total Received Packets");
-        chckbxTotalReceivedPacket.setHorizontalAlignment(SwingConstants.LEFT);
-        panel_4_PerformanceMetrics.add(chckbxTotalReceivedPacket);
+        chckbxThroughput = new JCheckBox("Throughput");
+        chckbxThroughput.setSelected(true);
+        chckbxThroughput.setHorizontalAlignment(SwingConstants.LEFT);
+        panel_4_PerformanceMetrics.add(chckbxThroughput);
+        metrics.add(chckbxThroughput);
 
-        chckbxTotalDroppedPackets = new JCheckBox("Total Dropped Packets");
-        chckbxTotalDroppedPackets.setHorizontalAlignment(SwingConstants.LEFT);
-        panel_4_PerformanceMetrics.add(chckbxTotalDroppedPackets);
-
-        chckbxTotalDroppedBytes = new JCheckBox("Total Dropped Bytes");
-        chckbxTotalDroppedBytes.setHorizontalAlignment(SwingConstants.LEFT);
-        panel_4_PerformanceMetrics.add(chckbxTotalDroppedBytes);
-
-        chckbxLostPacket = new JCheckBox("Lost Packet");
-        chckbxLostPacket.setHorizontalAlignment(SwingConstants.LEFT);
-        panel_4_PerformanceMetrics.add(chckbxLostPacket);
-
-        chckbxSimulationTime = new JCheckBox("Total Simulation Time");
-        chckbxSimulationTime.setHorizontalAlignment(SwingConstants.LEFT);
-        panel_4_PerformanceMetrics.add(chckbxSimulationTime);
-
-        chckbxFileInformation = new JCheckBox("File Information");
-        chckbxFileInformation.setHorizontalAlignment(SwingConstants.LEFT);
-        panel_4_PerformanceMetrics.add(chckbxFileInformation);
+        chckbxNormalized = new JCheckBox("Normalized Routing Load");
+        chckbxNormalized.setHorizontalAlignment(SwingConstants.LEFT);
+        panel_4_PerformanceMetrics.add(chckbxNormalized);
+        metrics.add(chckbxNormalized);
 
         return panel_4_PerformanceMetrics;
     }
@@ -429,11 +424,11 @@ public class MainFrame {
         return panel_result;
     }
 
-    public void updateResultPanel(ModelAnalysisResult result)
+    public void updateResultPanel(ModelAnalysisResult result, ArrayList<JCheckBox> metrics)
     {
         results.add(result); // save result in arrayList for generating graphs later
 
-        tabbedPane.addTab(result.getStringMetricValue("File Name"), makeTextPanel(result));
+        tabbedPane.addTab(result.getStringMetricValue("File Name"), makeTextPanel(result, metrics));
 
         panel_result.add(tabbedPane);
         panel_result.revalidate();
@@ -442,16 +437,14 @@ public class MainFrame {
     }
 
 
-    private JComponent makeTextPanel(ModelAnalysisResult result)
+    private JComponent makeTextPanel(ModelAnalysisResult result, ArrayList<JCheckBox> metrics)
     {
         JPanel panel = new JPanel(false);
-        panel.setLayout(new GridLayout(12, 2));
+        panel.setLayout(new GridLayout(0, 2));
 
         LinkedHashMap<String, String> fileInfo = result.getStringMap();
-        HashMap<String, Integer> intMetrics = result.getIntMap();
-        HashMap<String, Float> floatMetrics = result.getFloatMap();
 
-        // file name. file format
+        // file name, file format
         fileInfo.forEach((String checkBox, String label) -> {
             JCheckBox tmp = new JCheckBox(checkBox, true);
             tmp.setEnabled(false);
@@ -459,67 +452,77 @@ public class MainFrame {
             panel.add(new JLabel(label));
         });
 
-        // sent packets, received packets, dropped packets, received packet size, dropped packet size, overhead
-        JCheckBox tmp = new JCheckBox("Sent Packets", true);
-        tmp.setEnabled(false);
-        panel.add(tmp);
-        String label = String.format("%,d", result.getIntMetricValue("Sent Packets"));
-        panel.add(new JLabel(label));
+        // append results according to the selected metrics
 
-        tmp = new JCheckBox("Received Packets", true);
-        tmp.setEnabled(false);
-        panel.add(tmp);
-        label = String.format("%,d", result.getIntMetricValue("Received Packets"));
-        panel.add(new JLabel(label));
-
-        tmp = new JCheckBox("Dropped Packets", true);
-        tmp.setEnabled(false);
-        panel.add(tmp);
-        label = String.format("%,d", result.getIntMetricValue("Dropped Packets"));
-        panel.add(new JLabel(label));
-
-        tmp = new JCheckBox("Overhead", true);
-        tmp.setEnabled(false);
-        panel.add(tmp);
-        label = String.format("%,d", result.getIntMetricValue("Overhead"));
-        panel.add(new JLabel(label));
-
-        tmp = new JCheckBox("Received Packet Size", true);
-        tmp.setEnabled(false);
-        panel.add(tmp);
-        label = String.format("%,d", result.getIntMetricValue("Received Packet Size"));
-        panel.add(new JLabel(label + " Bytes"));
-
-        tmp = new JCheckBox("Dropped Bytes", true);
-        tmp.setEnabled(false);
-        panel.add(tmp);
-        label = String.format("%,d", result.getIntMetricValue("Dropped Bytes"));
-        panel.add(new JLabel(label + " Bytes"));
-
-        // e-to-e delay, delivery ratio, throughput, normalized routing
-        tmp = new JCheckBox("End to End Delay", true);
-        tmp.setEnabled(false);
-        panel.add(tmp);
-        label = String.format("%.2f", result.getFloatMetricValue("End to End Delay"));
-        panel.add(new JLabel(label));
-
-        tmp = new JCheckBox("Packet Delivery Ratio", true);
-        tmp.setEnabled(false);
-        panel.add(tmp);
-        label = String.format("%.2f", result.getFloatMetricValue("Packet Delivery Ratio"));
-        panel.add(new JLabel(label+"%"));
-
-        tmp = new JCheckBox("Throughput", true);
-        tmp.setEnabled(false);
-        panel.add(tmp);
-        label = String.format("%.2f", result.getFloatMetricValue("Throughput"));
-        panel.add(new JLabel(label));
-
-        tmp = new JCheckBox("Normalized Routing Load", true);
-        tmp.setEnabled(false);
-        panel.add(tmp);
-        label = String.format("%.2f", result.getFloatMetricValue("Normalized Routing Load"));
-        panel.add(new JLabel(label));
+        metrics.forEach((JCheckBox tmpBox) -> {
+            String chkBoxText = tmpBox.getText();
+            JCheckBox tmp;
+            switch (chkBoxText) {
+                case "Sent Packets":
+                    tmp = new JCheckBox(chkBoxText, true);
+                    tmp.setEnabled(false);
+                    panel.add(tmp);
+                    String label = String.format("%,d", result.getIntMetricValue(chkBoxText));
+                    panel.add(new JLabel(label));
+                    break;
+                case "Received Packets":
+                    tmp = new JCheckBox(chkBoxText, true);
+                    tmp.setEnabled(false);
+                    panel.add(tmp);
+                    label = String.format("%,d", result.getIntMetricValue(chkBoxText));
+                    panel.add(new JLabel(label));
+                    break;
+                case "Dropped Packets":
+                    tmp = new JCheckBox(chkBoxText, true);
+                    tmp.setEnabled(false);
+                    panel.add(tmp);
+                    label = String.format("%,d", result.getIntMetricValue(chkBoxText));
+                    panel.add(new JLabel(label));
+                    break;
+                case "Overhead":
+                    tmp = new JCheckBox(chkBoxText, true);
+                    tmp.setEnabled(false);
+                    panel.add(tmp);
+                    label = String.format("%,d", result.getIntMetricValue(chkBoxText));
+                    panel.add(new JLabel(label));
+                    break;
+                case "Dropped Bytes":
+                    tmp = new JCheckBox(chkBoxText, true);
+                    tmp.setEnabled(false);
+                    panel.add(tmp);
+                    label = String.format("%,d", result.getIntMetricValue(chkBoxText));
+                    panel.add(new JLabel(label + " bytes"));
+                    break;
+                case "End to End Delay":
+                    tmp = new JCheckBox(chkBoxText, true);
+                    tmp.setEnabled(false);
+                    panel.add(tmp);
+                    label = String.format("%,.2f", result.getFloatMetricValue(chkBoxText));
+                    panel.add(new JLabel(label));
+                    break;
+                case "Packet Delivery Ratio":
+                    tmp = new JCheckBox(chkBoxText, true);
+                    tmp.setEnabled(false);
+                    panel.add(tmp);
+                    label = String.format("%,.2f", result.getFloatMetricValue(chkBoxText));
+                    panel.add(new JLabel(label+"%"));
+                    break;
+                case "Throughput":
+                    tmp = new JCheckBox(chkBoxText, true);
+                    tmp.setEnabled(false);
+                    panel.add(tmp);
+                    label = String.format("%,.2f", result.getFloatMetricValue(chkBoxText));
+                    panel.add(new JLabel(label));
+                    break;
+                case "Normalized Routing Load":
+                    tmp = new JCheckBox(chkBoxText, true);
+                    tmp.setEnabled(false);
+                    panel.add(tmp);
+                    label = String.format("%,.2f", result.getFloatMetricValue(chkBoxText));
+                    panel.add(new JLabel(label+"%"));
+                    break;
+            }
+        });
 
         return panel;
     }
@@ -686,6 +689,11 @@ public class MainFrame {
         return radioFR;
     }
 
+    public ArrayList<JCheckBox> getMetrics()
+    {
+        return metrics;
+    }
+
     public JRadioButton getRadioFW()
     {
         return radioFW;
@@ -704,17 +712,14 @@ public class MainFrame {
     public void setCheckboxEnabled(boolean Option)
     {
         chckbxPacketDeliveryRatio.setEnabled(Option);
-        chckbxNormalized_1.setEnabled(Option);
-        chckbxThrouighput.setEnabled(Option);
+        chckbxNormalized.setEnabled(Option);
+        chckbxThroughput.setEnabled(Option);
         chckbxOverHead.setEnabled(Option);
         chckbxEndToEnd.setEnabled(Option);
-        chckbxTotalSentPacket.setEnabled(Option);
-        chckbxTotalReceivedPacket.setEnabled(Option);
-        chckbxTotalDroppedPackets.setEnabled(Option);
-        chckbxTotalDroppedBytes.setEnabled(Option);
-        chckbxLostPacket.setEnabled(Option);
-        chckbxSimulationTime.setEnabled(Option);
-        chckbxFileInformation.setEnabled(Option);
+        chckbxSentPacket.setEnabled(Option);
+        chckbxReceivedPacket.setEnabled(Option);
+        chckbxDroppedPackets.setEnabled(Option);
+        chckbxDroppedBytes.setEnabled(Option);
     }
 
     /**
@@ -725,34 +730,27 @@ public class MainFrame {
     public void setCheckboxSelected(boolean option)
     {
         chckbxPacketDeliveryRatio.setSelected(option);
-        chckbxNormalized_1.setSelected(option);
-        chckbxThrouighput.setSelected(option);
+        chckbxNormalized.setSelected(option);
+        chckbxThroughput.setSelected(option);
         chckbxOverHead.setSelected(option);
         chckbxEndToEnd.setSelected(option);
-        chckbxTotalSentPacket.setSelected(option);
-        chckbxTotalReceivedPacket.setSelected(option);
-        chckbxTotalDroppedPackets.setSelected(option);
-        chckbxTotalDroppedBytes.setSelected(option);
-        chckbxLostPacket.setSelected(option);
-        chckbxSimulationTime.setSelected(option);
-        chckbxFileInformation.setSelected(option);
+        chckbxSentPacket.setSelected(option);
+        chckbxReceivedPacket.setSelected(option);
+        chckbxDroppedPackets.setSelected(option);
+        chckbxDroppedBytes.setSelected(option);
     }
 
     public void selectMostUsedMetrics()
     {
         chckbxPacketDeliveryRatio.setSelected(true);
-        chckbxThrouighput.setSelected(true);
+        chckbxThroughput.setSelected(true);
         chckbxOverHead.setSelected(true);
         chckbxEndToEnd.setSelected(true);
-
-        chckbxNormalized_1.setSelected(false);
-        chckbxTotalSentPacket.setSelected(false);
-        chckbxTotalReceivedPacket.setSelected(false);
-        chckbxTotalDroppedPackets.setSelected(false);
-        chckbxTotalDroppedBytes.setSelected(false);
-        chckbxLostPacket.setSelected(false);
-        chckbxSimulationTime.setSelected(false);
-        chckbxFileInformation.setSelected(false);
+        chckbxNormalized.setSelected(false);
+        chckbxSentPacket.setSelected(false);
+        chckbxReceivedPacket.setSelected(false);
+        chckbxDroppedPackets.setSelected(false);
+        chckbxDroppedBytes.setSelected(false);
     }
 
     /**
