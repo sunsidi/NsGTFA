@@ -3,6 +3,7 @@ package JavaNs2.Views;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
@@ -21,6 +22,9 @@ public class PieChart_AWT {
                 true, // include legend
                 true,
                 false);
+        PiePlot p = (PiePlot)pieChart.getPlot();
+        p.setLabelGenerator(null);
+
         chartPanel = new ChartPanel(pieChart,
                 width,
                 height,
@@ -34,6 +38,7 @@ public class PieChart_AWT {
                 true,
                 true,
                 true);
+
 
 //        this.add(chartPanel);
     }
