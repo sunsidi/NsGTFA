@@ -250,8 +250,8 @@ public class FileAnalyser extends SwingWorker<ModelAnalysisResult, Integer> {
             File file = new File(inputFileName);
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
-            outputPath = file.getParent() + "/Result_" + file.getName().replaceFirst("[.][^.]+$", "") + ".txt";
-
+//            outputPath = file.getParent() + "/Result_" + file.getName().replaceFirst("[.][^.]+$", "") + ".txt";
+            result.setOuputPath(file.getParent() + "/Result_" + file.getName().replaceFirst("[.][^.]+$", "") + ".txt");
             // save the file name
             result.setMetricValue("File Name", file.getName().replaceFirst("[.][^.]+$", "")); // get rid of extension
 
@@ -378,6 +378,12 @@ public class FileAnalyser extends SwingWorker<ModelAnalysisResult, Integer> {
             Helper.endPerformanceTest();
             result.print();
             System.out.println();
+            try {
+                result.export();
+            } catch (IOException e) {
+                view.getRadioFW().setSelected(true);
+                JOptionPane.showMessageDialog(null, "Export Error: Cannot export analysis result.","Error",JOptionPane.ERROR_MESSAGE);
+            }
             return result;
         } //end of try
         catch (Exception e) {
@@ -391,12 +397,9 @@ public class FileAnalyser extends SwingWorker<ModelAnalysisResult, Integer> {
     {
         try {
             view.updateResultPanel(get(), metrics);
-            Helper.exportResults(get(), outputPath);
+//            Helper.exportResults(get(), outputPath);
         } catch (ExecutionException | InterruptedException | CancellationException | NullPointerException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            view.getRadioFW().setSelected(true);
-            JOptionPane.showMessageDialog(null, "Export Error: Cannot export analysis result.","Error",JOptionPane.ERROR_MESSAGE);
         }
     }
 
