@@ -72,11 +72,12 @@ public class MainFrame {
 
     public void initialize()
     {
-        mainFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("image/Astrology-Year-Of-Horse-icon.png"));
+//        mainFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("image/Astrology-Year-Of-Horse-icon.png"));
+        mainFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/JavaNs2/image/Astrology-Year-Of-Horse-icon.png")));
         mainFrame.setResizable(false);
         mainFrame.getContentPane().setEnabled(false);
         mainFrame.getContentPane().setForeground(SystemColor.inactiveCaption);
-        mainFrame.setTitle("NsGTFA");
+        mainFrame.setTitle("NsGTFA v 4.0");
         mainFrame.setBounds(100, 100, 780, 660);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainFrame.getContentPane().setLayout(null);
@@ -100,7 +101,8 @@ public class MainFrame {
         // HW Logo
         JLabel lblNewLabel_1 = new JLabel("");
         lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNewLabel_1.setIcon(new ImageIcon("image/HWU.png"));
+        ImageIcon image1 = new ImageIcon(getClass().getResource("/JavaNs2/image/HWU.png"));
+        lblNewLabel_1.setIcon(image1);
         lblNewLabel_1.setBounds(10, 89, 370, 83);
         mainFrame.getContentPane().add(lblNewLabel_1);
 
@@ -110,7 +112,10 @@ public class MainFrame {
         labelHWIcon.setHorizontalAlignment(SwingConstants.CENTER);
 //        labelHWIcon.setVerticalTextPosition(SwingConstants.TOP);
         labelHWIcon.setToolTipText("");
-        labelHWIcon.setIcon(new ImageIcon("image/DSG.jpg"));
+
+//        labelHWIcon.setIcon(new ImageIcon("image/DSG.jpg"));
+        ImageIcon image = new ImageIcon(getClass().getResource("/JavaNs2/image/DSG.jpg"));
+        labelHWIcon.setIcon(image);
         labelHWIcon.setBounds(550, 465, 215, 100);
         mainFrame.getContentPane().add(labelHWIcon);
         mainFrame.setVisible(true);
@@ -757,9 +762,9 @@ public class MainFrame {
 
     public void about()
     {
-        ImageIcon icon = new ImageIcon("image/icon.png", "Logo");
+        ImageIcon icon = new ImageIcon(getClass().getResource("/JavaNs2/image/icon.png"), "Logo");
         JOptionPane.showMessageDialog(null,
-                "Version 3.0, August 2018",
+                "Version 4.0, August 2018",
                 "About NsGTFA",
                 JOptionPane.INFORMATION_MESSAGE,
                 icon);
